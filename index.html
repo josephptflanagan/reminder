@@ -8,8 +8,6 @@
     <title>Reminder</title>
     <!--BOOTSTRAP STYLE SHEET-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
-    <!--ICON FONT-->
-    <link rel="stylesheet" href="assets/icon/icofont/icofont.min.css">
     <!--CUSTOM STYLE SHEET-->
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
@@ -23,19 +21,28 @@
 
     <main class="container">
         <div class="row">
-            <!--TASK AREA START-->
-            <div class="col-lg-9 search-area">
+            <!--SEARCH BAR AND LOCATIONS START-->
+            <div class="col-lg-3 search-area">
+                <div>
+                    <h5>Search for a City:</h5>
+                    <div class="input-group md-form form-sm form-2 pl-0 search-bar">
+                        <input class="form-control my-0 py-0" type="text" placeholder="Search" aria-label="Search" id="search-bar"/>
+                        <button class="input-group-append search-btn" id="search-button">
+                            <i class="search">Go</i>
+                        </button>
+                    </div>
+                </div>
                 <div id="locations"></div>
+
             </div>
-            <!--TASK AREA END-->
+            <!--SEARCH BAR AND LOCATIONS END-->
             <!--TODAY AND 5 DAY FORCAST START-->
-            <div class="col-lg-3">
+            <div class="col-lg-9">
                 <div id="today"></div>
                 <div class="container" id="five-day"></div>
             </div>
             <!--TODAY AND 5 DAY FORCAST END-->
         </div>
-
     </main>
     <!--JQUERY SCRIPT-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>

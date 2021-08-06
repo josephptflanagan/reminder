@@ -216,7 +216,7 @@ function display(cityDataObj){
 function displayCityButtons(cityWeatherObject){
 
     let deleteX = $("<i>")
-        .addClass("icofont-close delete-icon");
+        .text("X");
     
     let cityDeleteButton = $("<button>")
         .addClass("delete-btn")
