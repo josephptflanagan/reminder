@@ -1,0 +1,54 @@
+h1{
+    font-size: 72px;
+    padding: 20px;
+    text-align: center;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: black;
+    user-select: none; /* Standard */
+}
+
+h3{
+    padding: 5px;
+    margin-top: 10px;
+}
+
+header{
+    background-image: linear-gradient(to right, #00ffff, #ff5c33);
+}
+
+.task-area{
+    background-color: whitesmoke;
+}
+
+
+.button-div{
+
+    padding-left:0px !important;
+    padding-right:0px !important;
+    margin:0px !important;
+}
+
+span{
+    padding: 5px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+}
+
+.card-content{
+    padding:20px;
+
+}
+
+.card{
+    background-color: lightblue;
+}
+
+.forecast-card{
+    background-color:rgb(11, 31, 209);
+    color: white;
+    padding: 5px 15px 5px 15px;
+    margin: 5px 10px 5px 10px;
+    border-radius: 5px;
+}
