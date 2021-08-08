@@ -1,6 +1,7 @@
 h1{
     font-size: 72px;
-    padding: 20px;
+    margin-top: -50px;
+    padding: 0px 20px 20px 20px;
     text-align: center;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -72,12 +73,41 @@ span{
 
 .card{
     background-color: lightblue;
+    width: 100%;
 }
 
 .forecast-card{
+    width: 100%;
     background-color:rgb(11, 31, 209);
     color: white;
     padding: 5px 15px 5px 15px;
     margin: 5px 10px 5px 10px;
     border-radius: 5px;
 }
+
+.forecast-title{
+    justify-content: center;
+}
+
+.forecast-icon{
+    padding: 0px 20px 0px 20px;
+}
+
+.forecast-card-body{
+    display: flex;
+    justify-content: center;
+}
+
+.forecast-card-header{
+    text-align: center;
+}
+
+.current-time{
+    font-size: 18px;
+    color: white;
+    padding: 10px 10px 0 0;
+    display:flex;
+    justify-content: flex-end;
+    text-align: right;
+    min-height: 20px;
+  }

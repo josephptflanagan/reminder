@@ -14,34 +14,44 @@
 
 <body>
     <header>
+        <div class="current-time">
+            <p id="currentTime"></p>
+        </div>
         <div>
             <h1 class="bg-light text-dark">Reminder</h1>
         </div>
+       
     </header>
 
     <main class="container">
         <div class="row">
             <!--SEARCH BAR AND LOCATIONS START-->
-            <div class="col-lg-3 search-area">
-                <div>
-                    <h5>Search for a City:</h5>
-                    <div class="input-group md-form form-sm form-2 pl-0 search-bar">
-                        <input class="form-control my-0 py-0" type="text" placeholder="Search" aria-label="Search" id="search-bar"/>
-                        <button class="input-group-append search-btn" id="search-button">
-                            <i class="search">Go</i>
-                        </button>
-                    </div>
-                </div>
-                <div id="locations"></div>
+            <div class="col-lg-8">
 
             </div>
-            <!--SEARCH BAR AND LOCATIONS END-->
-            <!--TODAY AND 5 DAY FORCAST START-->
-            <div class="col-lg-9">
-                <div id="today"></div>
-                <div class="container" id="five-day"></div>
+            <div class="col-lg-4">
+                <div class="search-area">
+                    <div>
+                        <h5>Search for a City:</h5>
+                        <div class="input-group md-form form-sm form-2 pl-0 search-bar">
+                            <input class="form-control my-0 py-0" type="text" placeholder="Search" aria-label="Search"
+                                id="search-bar" />
+                            <button class="input-group-append search-btn" id="search-button">
+                                <i class="search">Go</i>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="locations"></div>
+
+                </div>
+                <!--SEARCH BAR AND LOCATIONS END-->
+                <!--TODAY AND 5 DAY FORCAST START-->
+                <div>
+                    <div id="today"></div>
+                    <div class="container" id="five-day"></div>
+                </div>
+                <!--TODAY AND 5 DAY FORCAST END-->
             </div>
-            <!--TODAY AND 5 DAY FORCAST END-->
         </div>
     </main>
     <!--JQUERY SCRIPT-->

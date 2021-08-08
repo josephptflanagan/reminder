@@ -1,107 +1,124 @@
 let idCounter = 0;
 let cities = [];
 
-function uvColor(uvIndex){
+//Initializes Clock Upon Loading
+let time = moment().format('LT');
+let date = moment().format('dddd MMMM Do');
+let clock = time + ', ' + date
+$("#currentTime")
+    .text(clock)
+    .addClass("current-time");
+
+//Updates the Clock Everytime it Changes
+setInterval(function () {
+    //Local Time
+    let time = moment().format('LT');
+    let date = moment().format('dddd MMMM Do');
+    let clock = time + ', ' + date
+    $("#currentTime").text(clock).addClass("current-time");
+}, 1000);
+
+function uvColor(uvIndex) {
 
     let color = ["magenta", "white"];
 
-    if (uvIndex >= 0 && uvIndex < 3){
+    if (uvIndex >= 0 && uvIndex < 3) {
         color = ["green", "white"];
     }
-    else if (uvIndex >= 3 && uvIndex < 6){
+    else if (uvIndex >= 3 && uvIndex < 6) {
         color = ["yellow", "black"];
     }
-    else if (uvIndex >= 6 && uvIndex < 8){
+    else if (uvIndex >= 6 && uvIndex < 8) {
         color = ["orange", "white"];
     }
-    else if (uvIndex >= 8 && uvIndex < 11){
+    else if (uvIndex >= 8 && uvIndex < 11) {
         color = ["red", "white"];
     }
-        return color;
-    
+    return color;
+
 };
 
-function dateFormat(date, type){
-    
-    if(type == 0){
+function dateFormat(date, type) {
+
+    if (type == 0) {
         let formattedDate = date.split("T")[0];
         let dateArr = formattedDate.split("-");
         return "(" + dateArr[1] + "/" + dateArr[2] + "/" + dateArr[0] + ")";
     }
-    else{
+    else {
         let formattedDate = date.split(" ")[0];
         let dateArr = formattedDate.split("-");
         return dateArr[1] + "/" + dateArr[2] + "/" + dateArr[0];
     }
-        
+
 
 };
 
-function getWeatherData (cityName){
+function getWeatherData(cityName) {
 
     //create the address to access the api for the chosen city
     let weatherApiUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&units=imperial&appid=333533caeef70abd76ddaed589322a0e"
     let forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&units=imperial&appid=333533caeef70abd76ddaed589322a0e"
-    
+
     //fetch data from the weather api
     fetch(weatherApiUrl)
-    
-    .then(function(response){
-        if (response.ok){
-            response.json().then(function(data){
-                
-                let lat = data.coord.lat;
-                let lon = data.coord.lon;
 
-                let uvApiUrl = "https://api.openweathermap.org/data/2.5/uvi?appid=333533caeef70abd76ddaed589322a0e&lat=" + lat + "&lon=" + lon
-                
-                //fetch data from the weather api
-                fetch(uvApiUrl).then(function(response){
-                    if (response.ok){
-                        response.json().then(function(uvData){                 
-                        
-                            fetch(forecastUrl).then(function(response){
-                                if (response.ok){
-                                    response.json().then(function(forecastData){ 
+        .then(function (response) {
+            if (response.ok) {
+                response.json().then(function (data) {
 
-                                        //if data comes through, send it to be compiled
-                                        compileWeatherData(data, uvData, forecastData, cityName);
+                    let lat = data.coord.lat;
+                    let lon = data.coord.lon;
+
+                    let uvApiUrl = "https://api.openweathermap.org/data/2.5/uvi?appid=333533caeef70abd76ddaed589322a0e&lat=" + lat + "&lon=" + lon
+
+                    //fetch data from the weather api
+                    fetch(uvApiUrl).then(function (response) {
+                        if (response.ok) {
+                            response.json().then(function (uvData) {
+
+                                fetch(forecastUrl).then(function (response) {
+                                    if (response.ok) {
+                                        response.json().then(function (forecastData) {
+
+                                            //if data comes through, send it to be compiled
+                                            compileWeatherData(data, uvData, forecastData, cityName);
+                                        })
+                                    }
+                                    else {
+                                        alert("Error: " + response.statusText);
+                                    }
+                                })
+                                    .catch(function (error) {
+                                        alert("Unable to Access Open Weather");
                                     })
-                                }
-                                else{
-                                    alert("Error: " + response.statusText);
-                                }
-                            })
-                            .catch(function(error){
-                                alert("Unable to Access Open Weather");
-                            })                    
 
+                            })
+                        }
+                        else {
+                            alert("Error: " + response.statusText);
+                        }
+                    })
+                        .catch(function (error) {
+                            alert("Unable to Access Open Weather");
                         })
-                    }
-                    else{
-                        alert("Error: " + response.statusText);
-                    }
                 })
-                .catch(function(error){
-                    alert("Unable to Access Open Weather");
-                })
-            })
-        }
-        else{
-            alert("Error: " + response.statusText);
-        }
-    })
-    .catch(function(error){
-        alert("Unable to Access Open Weather");
-    })
+            }
+            else {
+                alert("Error: " + response.statusText);
+            }
+        })
+        .catch(function (error) {
+            alert("Unable to Access Open Weather");
+        })
 
 };
 
-function forecastCompiler(forecastData){
-    
+function forecastCompiler(forecastData) {
+
     //console.log("first min temp: " + forecastData.list[0].main.temp_min);
 
-    let data = []; 
+    let data = [];
 
     // DATA: day 1 date | day 1 icon | day 1 low | day 1 high | day 1 humidity |
     //       day 2 date | day 2 icon | day 2 low | day 2 high | day 2 humidity |
@@ -109,7 +126,7 @@ function forecastCompiler(forecastData){
     //       day 4 date | day 4 icon | day 4 low | day 4 high | day 4 humidity |
     //       day 5 date | day 5 icon | day 5 low | day 5 high | day 5 humidity |
 
-    for(let i = 0; i < 40; i = i+8){
+    for (let i = 0; i < 40; i = i + 8) {
         let min = null;
         let max = null;
 
@@ -121,41 +138,41 @@ function forecastCompiler(forecastData){
         let iconId = forecastData.list[i].weather[0].icon;
         //console.log("iconId:" + iconId)
 
-        if(iconId[2] == "n"){
+        if (iconId[2] == "n") {
 
             iconId = iconId[0] + iconId[1] + "d";
 
         }
 
-        let iconUrl = "https://openweathermap.org/img/wn/"+ iconId + "@2x.png";
+        let iconUrl = "https://openweathermap.org/img/wn/" + iconId + "@2x.png";
 
         let humid = forecastData.list[i].main.humidity;
 
-        for(let j = 0; j < 8; j++){
-           
+        for (let j = 0; j < 8; j++) {
+
             //console.log("i+j: "+ (i+j));
 
-            if(min == null || min < forecastData.list[i+j].main.temp_min){
-               min = forecastData.list[i+j].main.temp_min
+            if (min == null || min < forecastData.list[i + j].main.temp_min) {
+                min = forecastData.list[i + j].main.temp_min
             }
 
-           if(max == null || max > forecastData.list[i+j].main.temp_max){
-               max = forecastData.list[i+j].main.temp_max
-           }
+            if (max == null || max > forecastData.list[i + j].main.temp_max) {
+                max = forecastData.list[i + j].main.temp_max
+            }
 
         }
         data.push(tempDate);
         data.push(iconUrl);
         data.push(min);
-        data.push(max);      
+        data.push(max);
         data.push(humid);
-        
+
     }
     return data;
 }
 
 //takes in both data files and the user input name, and creates cityDataObjects
-function compileWeatherData(data, uvData, forecastData, cityName){
+function compileWeatherData(data, uvData, forecastData, cityName) {
     //console.log(data);
     //console.log(uvData);
     //console.log(forecastData);
@@ -170,7 +187,7 @@ function compileWeatherData(data, uvData, forecastData, cityName){
     let idGenerator = "city-" + idCounter
     idCounter++;
 
-    let iconUrl = "https://openweathermap.org/img/wn/"+ iconID + "@2x.png";
+    let iconUrl = "https://openweathermap.org/img/wn/" + iconID + "@2x.png";
 
     let formattedDate = dateFormat(date, 0);
 
@@ -187,37 +204,37 @@ function compileWeatherData(data, uvData, forecastData, cityName){
         date: formattedDate,
         fiveDay: forecast
     };
-    
+
     let alreadyStored = false;
-    for(let i = 0; i < cities.length;i++){
-        if(cityDataObj.name == cities[i].name){
+    for (let i = 0; i < cities.length; i++) {
+        if (cityDataObj.name == cities[i].name) {
             cities[i] = cityDataObj;
             alreadyStored = true;
         }
     }
-    if(alreadyStored == false){
+    if (alreadyStored == false) {
         cities.push(cityDataObj);
     }
-    
+
 
     saveCities();
 
-    display(cityDataObj);   
+    display(cityDataObj);
 
 };
 //Takes in cityDataObjects and passes them on to all 3 display programs
-function display(cityDataObj){
+function display(cityDataObj) {
     displayCityButtons(cityDataObj);
     displayCurrentWeatherData(cityDataObj);
     displayForecastWeatherData(cityDataObj);
 };
 
 //creates the city buttons and adds them to the HTML
-function displayCityButtons(cityWeatherObject){
+function displayCityButtons(cityWeatherObject) {
 
     let deleteX = $("<i>")
         .text("X");
-    
+
     let cityDeleteButton = $("<button>")
         .addClass("delete-btn")
         .attr("id", cityWeatherObject.id)
@@ -246,13 +263,13 @@ function displayCityButtons(cityWeatherObject){
 };
 
 //creates the current weather card and appends it to the HTML
-function displayCurrentWeatherData(cityWeatherObject){
+function displayCurrentWeatherData(cityWeatherObject) {
 
     let icon = $("<img>")
         .attr("src", cityWeatherObject.icon);
 
     let cityTitle = $("<h3>")
-        .text(cityWeatherObject.name + " " + cityWeatherObject.date)
+        .text(cityWeatherObject.name)
         .append(icon);
 
     let tempLevel = $("<p>")
@@ -263,30 +280,30 @@ function displayCurrentWeatherData(cityWeatherObject){
 
     let windLevel = $("<p>")
         .text("Wind Speed: " + cityWeatherObject.wind + " MPH");
-        
+
     let uvSpan = $("<span>")
         .css("background-color", uvColor(cityWeatherObject.uv)[0])
         .css("color", uvColor(cityWeatherObject.uv)[1])
         .text(cityWeatherObject.uv);
-    
+
     let uvLevel = $("<p>")
         .text("UV index: ")
         .append(uvSpan);
 
     let cardContent = $("<div>")
         .addClass("card-content")
-        .append( cityTitle, tempLevel, humidityLevel, windLevel, uvLevel);
+        .append(cityTitle, tempLevel, humidityLevel, windLevel, uvLevel);
 
     let today = $("<div>")
         .addClass("card")
-        .append( cardContent);
+        .append(cardContent);
 
     $("#today").empty();
 
     $("#today").append(today);
 };
 
-function displayForecastWeatherData(cityWeatherObject){
+function displayForecastWeatherData(cityWeatherObject) {
 
     // DATA: day 1 date | day 1 icon | day 1 low | day 1 high | day 1 humidity |
     //       day 2 date | day 2 icon | day 2 low | day 2 high | day 2 humidity |
@@ -297,8 +314,8 @@ function displayForecastWeatherData(cityWeatherObject){
     $("#five-day").empty();
 
     let forecastTitle = $("<h3>")
-        .addClass("row")
-        .text("5-Day Forecast: ");
+        .addClass("row forecast-title")
+        .text("5-Day Forecast");
 
     let datePlate = $("<div>")
         .attr("id", "date-plate")
@@ -306,26 +323,38 @@ function displayForecastWeatherData(cityWeatherObject){
 
     $("#five-day").append(forecastTitle, datePlate);
 
-    for(let i = 0; i < 5; i++){
-    
+    for (let i = 0; i < 5; i++) {
+
         let date = $("<h5>")
-            .text(cityWeatherObject.fiveDay[i*5]);
+            .text(cityWeatherObject.fiveDay[i * 5]);
 
         let icon = $("<img>")
-            .attr("src", cityWeatherObject.fiveDay[i*5+1]);
+            .attr("src", cityWeatherObject.fiveDay[i * 5 + 1])
+            .addClass("forecast-icon");
 
         let tempMax = $("<p>")
-            .text("High: " + cityWeatherObject.fiveDay[i*5+2] + " °F");
+            .text("High: " + cityWeatherObject.fiveDay[i * 5 + 2] + " °F");
 
         let tempMin = $("<p>")
-            .text("Low: " + cityWeatherObject.fiveDay[i*5+3] + " °F");
+            .text("Low: " + cityWeatherObject.fiveDay[i * 5 + 3] + " °F");
 
         let Humidity = $("<p>")
-            .text("Humidity: " + cityWeatherObject.fiveDay[i*5+4] + " %");
-            
+            .text("Humidity: " + cityWeatherObject.fiveDay[i * 5 + 4] + " %");
+
+        let cardLeft = $("<div>")
+            .append(tempMax, tempMin, Humidity)
+
+        let cardBody = $("<div>")
+            .addClass("forecast-card-body")
+            .append(cardLeft, icon)
+
+        let cardHeader = $("<div>")
+            .addClass("forecast-card-header")
+            .append(date)
+
         let forecastCard = $("<div>")
-            .addClass("forecast-card col-lg-2")
-            .append(date, icon, tempMax, tempMin, Humidity);
+            .addClass("forecast-card")
+            .append(cardHeader, cardBody);
 
         $("#date-plate").append(forecastCard);
 
@@ -333,7 +362,7 @@ function displayForecastWeatherData(cityWeatherObject){
 
 };
 
-function deleteCity(cityId){
+function deleteCity(cityId) {
 
     console.log("entered delete function");
     //console.log("deleteCity Accessed, cityID: " + cityId);
@@ -344,11 +373,11 @@ function deleteCity(cityId){
     let updatedCities = [];
 
     //loop through city list
-    for (let i = 0; i < cities.length; i++){
+    for (let i = 0; i < cities.length; i++) {
         //if cities[i].id doesn't match the value of the current city it is kept, thus
         //only the city being deleted is not added to the array
         console.log("cities[i].id:" + cities[i].id + ", cityId: " + cityId);
-        if (cities[i].id !==cityId){
+        if (cities[i].id !== cityId) {
             updatedCities.push(cities[i]);
         }
     }
@@ -362,26 +391,26 @@ function deleteCity(cityId){
     saveCities();
 
     //update current weather display to remove data from deleted city
-    if(cities.length != 0){
-        displayCurrentWeatherData(cities[cities.length-1]);
+    if (cities.length != 0) {
+        displayCurrentWeatherData(cities[cities.length - 1]);
     }
-    
+
 
 };
 
-function saveCities(){
+function saveCities() {
     //console.log("saveCities, cities: " + JSON.stringify(cities));
     localStorage.clear();
     localStorage.setItem("cities", JSON.stringify(cities));
 };
 
-function loadCities(){
+function loadCities() {
     //grabs saved cities
     let loadedCities = localStorage.getItem("cities");
 
     localStorage.clear();
 
-    if(!loadedCities){
+    if (!loadedCities) {
         cities = [];
         return false;
     };
@@ -389,25 +418,25 @@ function loadCities(){
     //parses saved cities and adds to cities array
     cities = JSON.parse(loadedCities);
 
-    for(let i = 0;i < cities.length;i++){
-        getWeatherData(cities[i].name);      
+    for (let i = 0; i < cities.length; i++) {
+        getWeatherData(cities[i].name);
     }
-    
+
 };
 
 //when the search bar is 
-$("#search-button").on("click", function(){
+$("#search-button").on("click", function () {
 
     //get and store the city name from the search bar
     let cityName = $(this).siblings("#search-bar").val().trim();
 
     //cityName = nameFormat(cityName); Formatting not working correctly,
     //                                  will reopen route when it is fixed
-    
-    if(cityName != ""){
+
+    if (cityName != "") {
         //control to keep from searching the same name twice
-        for(let i = 0; i < cities.length; i++){
-            if(cityName == cities[i].name){
+        for (let i = 0; i < cities.length; i++) {
+            if (cityName == cities[i].name) {
                 alert("That City is Already Listed")
                 return
             }
@@ -415,27 +444,27 @@ $("#search-button").on("click", function(){
         //sends viable city name to the GetWeatherData function
         getWeatherData(cityName);
     }
-    else{
+    else {
         return;
     }
 
 });
 
-$("#locations").on("click", function(){
+$("#locations").on("click", function () {
     //console.log(event.target);
 
-    if(event.target.matches(".city-btn")){
+    if (event.target.matches(".city-btn")) {
         let cityId = event.target.getAttribute("id");
         //console.log("cityId: " + cityId);
-        for(let i = 0; i < cities.length; i++){
-            if(cities[i].id == cityId){
-               displayForecastWeatherData(cities[i]);
-               displayCurrentWeatherData(cities[i]);
+        for (let i = 0; i < cities.length; i++) {
+            if (cities[i].id == cityId) {
+                displayForecastWeatherData(cities[i]);
+                displayCurrentWeatherData(cities[i]);
             }
         }
-        
-    }    
-    else if(event.target.matches(".delete-btn")){
+
+    }
+    else if (event.target.matches(".delete-btn")) {
         let cityId = event.target.getAttribute("id");
         deleteCity(cityId);
     }
