@@ -8,8 +8,11 @@
     <title>Reminder</title>
     <!--BOOTSTRAP STYLE SHEET-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
-    <!--CUSTOM STYLE SHEET-->
-    <link rel="stylesheet" href="assets/css/style.css">
+    <!--JQUERY UI STYLE SHEET-->    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css">
+    <!--CUSTOM STYLE SHEETS-->
+    <link rel="stylesheet" href="assets/css/tasks.css">
+    <link rel="stylesheet" href="assets/css/weather.css">
 </head>
 
 <body>
@@ -23,10 +26,16 @@
        
     </header>
 
+    <nav>
+        <button id="create-task" class="btn btn-block btn-add" data-toggle="modal" data-target="#task-form-modal"><span class="oi oi-plus mr-2"></span> Add
+            Task</button>
+    </nav>
+
     <main class="container">
         <div class="row">
             <!--SEARCH BAR AND LOCATIONS START-->
-            <div class="col-lg-8">
+            <div class="col-lg-8 task-area">
+                <ul id="list-toDo" class="list-group list-group-flush"></ul>
 
             </div>
             <div class="col-lg-4">
@@ -54,14 +63,54 @@
             </div>
         </div>
     </main>
+
+    <!-- Modal -->
+  <div class="modal fade" id="task-form-modal" tabindex="-1" role="dialog" aria-labelledby="task-form-modal"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="task-form-modal">Add New Task</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="modalTaskDescription">Task description</label>
+            <textarea id="modalTaskDescription" rows="3" class="form-control"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="modalDueDate">Due date</label>
+            <input type="text" class="form-control" id="modalDueDate" placeholder="mm/dd/yyyy" autocomplete="off" />
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-close" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-save">Save Task</button>
+      </div>
+    </div>
+  </div>
+</div>
+
     <!--JQUERY SCRIPT-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!--JQUERY UI SCRIPTS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
     <!--BOOTSTRAP SCRIPT-->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
     <!--MOMENT-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-    <!--CUSTOM SCRIPT-->
-    <script src="./assets/js/script.js"></script>
+    <!--TIME SCRIPT-->
+    <script src="./assets/js/time.js"></script>
+    <!--WEATHER SCRIPT-->
+    <script src="./assets/js/weather.js"></script>
+    <!--TASKS SCRIPT-->
+    <script src="./assets/js/tasks.js"></script>
+    
 
 </body>
 

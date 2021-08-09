@@ -18,6 +18,16 @@ header{
     background-image: linear-gradient(to right, #00ffff, #ff5c33);
 }
 
+nav{
+    background-color: darkslategray;
+    margin-top: -10px;
+    padding: 10px;
+}
+
+.task-area{
+    background-color: dimgray;
+}
+
 .search-area{
     background-color: whitesmoke;
 }

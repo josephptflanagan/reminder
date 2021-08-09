@@ -1,23 +1,6 @@
 let idCounter = 0;
 let cities = [];
 
-//Initializes Clock Upon Loading
-let time = moment().format('LT');
-let date = moment().format('dddd MMMM Do');
-let clock = time + ', ' + date
-$("#currentTime")
-    .text(clock)
-    .addClass("current-time");
-
-//Updates the Clock Everytime it Changes
-setInterval(function () {
-    //Local Time
-    let time = moment().format('LT');
-    let date = moment().format('dddd MMMM Do');
-    let clock = time + ', ' + date
-    $("#currentTime").text(clock).addClass("current-time");
-}, 1000);
-
 function uvColor(uvIndex) {
 
     let color = ["magenta", "white"];
